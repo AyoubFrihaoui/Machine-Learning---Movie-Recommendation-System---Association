@@ -2,6 +2,10 @@
 A brief description of the project(will be updated later).
 
 # Getting Started:
+## Author of installation guide
+- Ayoub Frihaoui
+  
+for any questions you can send a message.
 ## Installation
 ``` conda ``` command should be executed in anaconda powershell or prompt.
 ```bash
