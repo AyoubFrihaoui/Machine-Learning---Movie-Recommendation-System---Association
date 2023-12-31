@@ -13,3 +13,9 @@ Must run this command after each new packages are installed.
 ```
 pip freeze > requirements.txt
 ```
+### Frontend
+```
+cd '.\Front Movies web\'
+npm install
+npm run dev
+```
