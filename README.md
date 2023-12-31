@@ -7,7 +7,7 @@ A brief description of the project(will be updated later).
   
 for any questions you can send a message.
 ## Installation
-``` conda ``` command should be executed in anaconda powershell or prompt.
+``` conda ``` command should be executed in anaconda powershell or prompt (preferred to run it as administrator).
 ```bash
 conda create --name ML_Mini_Project python==3.11.4
 conda activate ML_Mini_Project
