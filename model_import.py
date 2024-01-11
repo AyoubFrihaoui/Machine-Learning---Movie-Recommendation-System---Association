@@ -37,5 +37,11 @@ def recommendations_name(film):
     return result_titles
 
 # Example usage
+<<<<<<< HEAD
 
+=======
+film_recommendations = recommendations_name('Titanic')
+
+print(film_recommendations)
+>>>>>>> 8a4a808819e7b71daa0767d8ab90b4c2ba03f767
 
