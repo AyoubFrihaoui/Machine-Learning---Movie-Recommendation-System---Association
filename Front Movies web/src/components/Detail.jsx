@@ -8,11 +8,13 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import slugify from 'react-slugify';
 import Movies from './Movies';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import Moviecard from './Moviecard';
 
 export const Detail = () => {
   const APIKEY = import.meta.env.VITE_API_KEY;
 
-  const { loader, setLoader } = useContext(Contextpage);
+  const { loader, setLoader, page, setPage, totalPage} = useContext(Contextpage);
 
   const { id } = useParams()
 
@@ -20,6 +22,7 @@ export const Detail = () => {
   const [castdata, setCastdata] = useState([]);
   const [moviegenres, setMoviegenres] = useState([]);
   const [video, setVideo] = useState([]);
+  const [recommend, setRecommend] = useState([]);
 
   const fetchMovie = async () => {
     const data = await fetch(
@@ -47,14 +50,32 @@ export const Detail = () => {
     );
     const videodata = await data.json();
     setVideo(videodata.results);
-    // console.log(videodata.results);
+   console.log(videodata.results);
   }
+
+  //@author Ayoub Frihaoui - fetchRecommend
+
+  const fetchRecommend = async () => {
+    const data = await fetch(
+      `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${APIKEY}&language=en-US`
+      
+    );
+    const recommenddata = await data.json();
+    setRecommend(recommenddata.results);
+    setLoader(false);
+   console.log(recommenddata.results);
+  }
+
 
   useEffect(() => {
     fetchMovie();
     fetchCast();
     fetchVideo();
+    fetchRecommend();
+    setPage(1)
   }, []);
+
+ 
 
   
   return (
@@ -130,7 +151,21 @@ export const Detail = () => {
               </Link>
             </div>
             <h1 className="text-3xl text-blue-300 font-semibold text-center p-2">Recommendations:</h1>
-            <Movies></Movies>
+            <InfiniteScroll
+                                    className="w-full md:p-2 flex flex-wrap relative justify-evenly md:justify-around"
+                                    dataLength={recommend.length} //This is important field to render the next data
+                                    next={() => setPage(page + 1)}
+                                    hasMore={page < totalPage}
+                                    loader={<span className="loader m-10"></span>}
+                                    scrollThreshol={0.9}
+                                    style={{ overflow: 'hidden' }}
+                                >
+
+                                    {recommend.map((movie) => (
+                                        <Moviecard key={movie.id} movie={movie} />
+                                    ))}
+
+                                </InfiniteScroll>
           </>
       }
     </>
