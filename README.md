@@ -2,12 +2,8 @@
 A brief description of the project(will be updated later).
 
 # Getting Started:
-## Author of installation guide
-- Ayoub Frihaoui
-  
-for any questions you can send a message.
 ## Installation
-``` conda ``` command should be executed in anaconda powershell or prompt (preferred to run it as an administrator).
+``` conda ``` command should be executed in anaconda powershell or prompt.
 ```bash
 conda create --name ML_Mini_Project python==3.11.4
 conda activate ML_Mini_Project
@@ -18,8 +14,19 @@ Must run this command after each new packages are installed.
 pip freeze > requirements.txt
 ```
 ### Frontend
+
+#### Step 1: Install dependencies
 ```
 cd '.\Front Movies web\'
 npm install
 npm run dev
 ```
+#### Step 2: Obtain the TMDB Movies API Key
+
+Before starting the website, you will need to obtain the TMDB Movies API key. Follow these steps to obtain them and add them to your `.env` file.
+
+### Get TMDB API Key 
+
+- Go to https://www.themoviedb.org/ and log in.
+- Click on your user profile picture in the navigation bar, and select "Settings".
+- In the settings, select "API" and generate an API key.
