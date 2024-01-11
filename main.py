@@ -4,7 +4,7 @@ from model_import import recommendations_name
 app=FastAPI()
 
 
-@app.post("/users")
+@app.post("/")
 async def get_recommendation(request:Request,movie : str= Body(...,embed=True) ):
     requestBody=await request.body()
     content= requestBody.decode()
