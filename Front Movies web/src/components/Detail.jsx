@@ -10,6 +10,9 @@ import slugify from 'react-slugify';
 import Movies from './Movies';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Moviecard from './Moviecard';
+import { async } from '@firebase/util';
+import { list } from 'postcss';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export const Detail = () => {
   const APIKEY = import.meta.env.VITE_API_KEY;
@@ -50,20 +53,59 @@ export const Detail = () => {
     );
     const videodata = await data.json();
     setVideo(videodata.results);
-   console.log(videodata.results);
+  // console.log(videodata.results);
   }
 
   //@author Ayoub Frihaoui - fetchRecommend
 
   const fetchRecommend = async () => {
-    const data = await fetch(
-      `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${APIKEY}&language=en-US`
+
+    const apiRecom = await fetch(
+      `http://127.0.0.1:8000`,
+       {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body:  JSON.stringify({"movie" : id})
+      }
       
     );
+    const apiRecomData = await apiRecom.json();
+    console.log(apiRecom.body);
+    console.log(apiRecomData.recommendations[0]);
+    var datas = [];
+    try {
+      const promises = apiRecomData.recommendations.map(tmdbId => fetch(
+        `https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${APIKEY}&language=en-US`
+        
+      ))
+  
+      const responses = await Promise.all(promises);
+  
+      // Process responses here
+      //console.log(await responses[0].json());
+      //console.log(await responses[1].json());
+      datas = await Promise.all(responses.map(movie =>  movie.json()));
+      console.log(datas[0]);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+
+    const data = await fetch(
+      `https://api.themoviedb.org/3/movie/${apiRecomData.recommendations[0]}?api_key=${APIKEY}&language=en-US`
+      
+    );
+    // const data = await fetch(
+    //   `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${APIKEY}&language=en-US`
+      
+    // );
     const recommenddata = await data.json();
-    setRecommend(recommenddata.results);
+    recommend.concat(datas)
+    setRecommend(datas);
     setLoader(false);
-   console.log(recommenddata.results);
+   console.log(datas);
   }
 
 
@@ -73,7 +115,7 @@ export const Detail = () => {
     fetchVideo();
     fetchRecommend();
     setPage(1)
-  }, []);
+  }, [id]);
 
  
 
@@ -151,7 +193,15 @@ export const Detail = () => {
               </Link>
             </div>
             <h1 className="text-3xl text-blue-300 font-semibold text-center p-2">Recommendations:</h1>
+            <motion.div
+                layout
+                className="flex flex-wrap relative justify-evenly md:justify-around">
+                <AnimatePresence>
+                    {
+                        loader ? <span className="loader m-10"></span> :
+                            <>
             <InfiniteScroll
+                              
                                     className="w-full md:p-2 flex flex-wrap relative justify-evenly md:justify-around"
                                     dataLength={recommend.length} //This is important field to render the next data
                                     next={() => setPage(page + 1)}
@@ -166,6 +216,10 @@ export const Detail = () => {
                                     ))}
 
                                 </InfiniteScroll>
+                                </>
+                    }
+                </AnimatePresence>
+            </motion.div>
           </>
       }
     </>
