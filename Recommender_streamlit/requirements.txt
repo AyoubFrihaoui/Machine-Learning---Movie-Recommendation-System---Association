@@ -7,3 +7,4 @@ matplotlib
 pytest-warnings
 scikit-learn
 requests
+streamlit-reveal-slides
