@@ -1,3 +1,9 @@
 streamlit
 numpy
 pandas
+joblib
+seaborn
+matplotlib
+pytest-warnings
+scikit-learn
+requests
