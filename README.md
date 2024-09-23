@@ -1,5 +1,7 @@
 # Machine-Learning---Movie-Recommendation-System---Association
 A movie recommender system using association rules mining.
+
+![Gif demo](./Static/Gif2024.gif)
 ## note : 
 The notebook including the eda , data preprocessing and model traning is in the file notebook.ipynb
 
