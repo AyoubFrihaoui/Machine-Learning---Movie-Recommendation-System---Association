@@ -61,7 +61,7 @@ export const Detail = () => {
   const fetchRecommend = async () => {
 
     const apiRecom = await fetch(
-      `http://127.0.0.1:8000`,
+      `http://127.0.0.1:8080`,
        {
         headers: {
           'Accept': 'application/json',
